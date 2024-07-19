@@ -661,19 +661,19 @@ class RunRecast():
                     newfile.write('    manager.InitializeAnalyzer(\"'+analysis+'\",\"'+analysis+'.saf\",'+\
                        'prm'+analysis+');\n')
                     newfile.write(  '  if (analyzer_'+analysis+'==0) return 1;\n\n')
-            elif '// Post initialization (creates the new output directory structure)' in line:
+            elif 'if(!manager.PostInitialize()) return 1;' in line:
                 ignore=False
                 newfile.write(line)
                 if self.TACO_output!='':
                     newfile.write('      std::ofstream out;\n      out.open(\"../Output/' + self.TACO_output+'\");\n')
-                    newfile.write('      manager.HeadSR(out);\n      out << std::endl;\n');
+                    newfile.write('      manager.HeadSR(out);\n      out << std::endl;\n')
             elif '!analyzer_' in line and not ignore:
                 ignore=True
                 for analysis in analysislist:
                     newfile.write('      if (!analyzer_'+analysis+'->Execute(mySample,myEvent)) continue;\n')
             elif '!analyzer1' in line:
                 if self.TACO_output!='':
-                    newfile.write('\nmanager.DumpSR(out);\n');
+                    newfile.write('\nmanager.DumpSR(out);\n')
                 ignore=False
             elif 'manager.Finalize(mySamples,myEvent);' in line:
                 if self.store_yoda:
@@ -687,7 +687,7 @@ class RunRecast():
         ## exit
         mainfile.close()
         newfile.close()
-        time.sleep(1.);
+        time.sleep(1.)
         return True
 
     def make_pad(self):
