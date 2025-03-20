@@ -941,7 +941,6 @@ void SampleAnalyzer::HeadSR(std::ostream &outwriter)
   outwriter << "#";
   for(MAuint32 i=0; i<analyzers_.size(); i++)
   {
-    outwriter <<" ";
     analyzers_[i]->Manager()->HeadSR(outwriter, analyzers_[i]->name());
   }
 }
@@ -949,6 +948,7 @@ void SampleAnalyzer::HeadSR(std::ostream &outwriter)
 
 void SampleAnalyzer::DumpSR(std::ostream &outwriter)
 {
+  outwriter << "O"; // signal boolean output
   for(MAuint32 i=0; i<analyzers_.size(); i++)
     analyzers_[i]->Manager()->DumpSR(outwriter);
   outwriter << std::endl;
